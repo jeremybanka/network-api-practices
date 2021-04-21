@@ -1,3 +1,17 @@
 body {
+  font-size: 20px;
   background-color: lightblue;
+  margin: 0;
+}
+
+.container {
+  width: calc(100vw - 20px);
+  position: relative;
+  margin: auto;
+  max-width: 650px;
+}
+
+
+.text-uppercase {
+  font-size: 30px;
 }
