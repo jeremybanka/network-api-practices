@@ -3,14 +3,16 @@ import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./css/styles.css"
 
+// http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}
+
 $(document).ready(function () {
-  $("#weatherLocation").click(function () {
-    let city = $("#location").val()
-    $("#location").val("")
+  $("button#go").click(function () {
+    let numberOfDinos = $("input#number").val()
+    $("input#number").val("")
 
     let promise = new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest()
-      const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}`
+      const url = `http://dinoipsum.herokuapp.com/api/?format=text&paragraphs=1&words=${numberOfDinos}`
       request.onload = function () {
         if (this.status === 200) {
           resolve(request.response)
@@ -24,21 +26,17 @@ $(document).ready(function () {
 
     promise.then(
       function (response) {
-        const body = JSON.parse(response)
-        $(".showHumidity").text(
-          `The humidity in ${city} is ${body.main.humidity}%`
+        console.log(promise)
+        // const body = JSON.parse(response)
+        $("#dino-list").text(
+          `This is your request for ${numberOfDinos} Dinos: ${response}`
         )
-        $(".showTemp").text(
-          `The temperature in Kelvins is ${body.main.temp} degrees.`
-        )
-        $(".showErrors").text("")
       },
       function (error) {
-        $(".showErrors").text(
+        console.log(promise)
+        $("#dino-list").text(
           `There was an error processing your request: ${error}`
         )
-        $(".showHumidity").text("")
-        $(".showTemp").text("")
       }
     )
   })
